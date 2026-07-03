@@ -131,3 +131,10 @@ html {
   background-color: oklch(0.85 0.05 80);
   color: oklch(0.15 0 0);
 }
+
+/* Preserve aspect ratio (no crop) for videos in native fullscreen */
+video:fullscreen,
+video:-webkit-full-screen {
+  object-fit: contain;
+  background-color: black;
+}

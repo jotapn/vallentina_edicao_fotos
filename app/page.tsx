@@ -2,19 +2,23 @@
 
 import { useRef, useEffect, useState } from "react";
 import { motion, useInView, useScroll, useTransform, AnimatePresence } from "motion/react";
-import { Menu, X, ArrowRight, ChevronDown, Camera, Image, Sun, Crop, Layers, Palette } from "lucide-react";
+import { Menu, X, ArrowRight, ChevronDown, ChevronLeft, ChevronRight, Camera, Image, Sun, Crop, Layers, Palette, VolumeX, Maximize2 } from "lucide-react";
 import { ComparisonSlider } from "@/components/comparison-slider";
 
 const IMAGES = {
-  hero: "/generated-elegant-architectural-interior-photograp-1782826860705.png",
-  beforeAfter: "/generated-interior-photography-before-and-after-co-1782826882286.png",
+  hero: ["/hero/h1.jpg", "/hero/h2.jpg", "/hero/h3.jpg"],
+  beforeAfter: [
+    { before: "/before-after/antes.jpg", after: "/before-after/depois.jpg" },
+    { before: "/before-after/antes1.jpg", after: "/before-after/depois1.jpg" },
+    { before: "/before-after/antes2.jpg", after: "/before-after/depois2.jpg" },
+  ],
   portfolio: [
-    "/generated-modern-luxury-bathroom-interior-photogra-1782826898762.png",
-    "/generated-minimalist-modern-kitchen-interior-photo-1782826899919.png",
-    "/generated-modern-building-facade-architecture-phot-1782826898926.png",
-    "/generated-elegant-bedroom-interior-photography-neu-1782826901327.png",
-    "/generated-modern-home-office-interior-photography--1782826919552.png",
-    "/generated-luxury-living-room-with-high-ceilings-ch-1782826919956.png",
+    "/portfolio/p1.jpg",
+    "/portfolio/p2.jpg",
+    "/portfolio/p3.jpg",
+    "/portfolio/p4.jpg",
+    "/portfolio/p5.jpg",
+    "/portfolio/p6.jpg",
   ],
 };
 
@@ -155,6 +159,35 @@ function Header() {
   );
 }
 
+function HeroSlideshow() {
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIndex((i) => (i + 1) % IMAGES.hero.length);
+    }, 4000);
+    return () => clearInterval(timer);
+  }, []);
+
+  return (
+    <AnimatePresence mode="sync">
+      <motion.img
+        key={index}
+        src={IMAGES.hero[index]}
+        alt="Fotografia de arquitetura"
+        className="absolute inset-0 w-full h-full object-cover"
+        width={1920}
+        height={1080}
+        decoding="async"
+        initial={{ opacity: 0, scale: 1.08 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0 }}
+        transition={{ opacity: { duration: 1.2, ease: [0.16, 1, 0.3, 1] }, scale: { duration: 4.5, ease: "linear" } }}
+      />
+    </AnimatePresence>
+  );
+}
+
 function Hero() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
@@ -164,21 +197,22 @@ function Hero() {
   return (
     <section ref={ref} className="relative min-h-screen flex items-center overflow-hidden bg-neutral-50">
       <motion.div style={{ y }} className="absolute inset-0">
-        <img src={IMAGES.hero} alt="Fotografia de arquitetura" className="w-full h-full object-cover" width={1920} height={1080} decoding="async" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/40 to-transparent" />
+        <HeroSlideshow />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/25" />
+        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/10" />
       </motion.div>
 
       <motion.div style={{ opacity }} className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 pt-32 pb-24 md:pt-40 md:pb-32">
         <div className="max-w-2xl">
-          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }} className="text-xs tracking-[0.3em] uppercase text-white/70 mb-6 font-medium">
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }} className="text-xs tracking-[0.3em] uppercase text-white mb-6 font-medium [text-shadow:0_1px_12px_rgba(0,0,0,0.7)]">
             Edição profissional de fotografia
           </motion.p>
 
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light tracking-tight text-white leading-[1.1]">
+          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light tracking-tight text-white leading-[1.1] [text-shadow:0_2px_24px_rgba(0,0,0,0.6)]">
             Edição de fotos de arquitetura com <span className="font-medium">olhar refinado</span> e acabamento profissional
           </motion.h1>
 
-          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.4 }} className="mt-6 text-base md:text-lg text-white/80 max-w-xl leading-relaxed font-light">
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.4 }} className="mt-6 text-base md:text-lg text-white max-w-xl leading-relaxed font-light [text-shadow:0_1px_16px_rgba(0,0,0,0.6)]">
             Tratamento de imagens para arquitetos, designers de interiores, fotógrafos e imobiliárias que desejam apresentar seus projetos com mais elegância, luz e impacto visual.
           </motion.p>
 
@@ -203,6 +237,14 @@ function Hero() {
 }
 
 function BeforeAfter() {
+  const [[index, direction], setPair] = useState<[number, number]>([0, 0]);
+  const total = IMAGES.beforeAfter.length;
+  const current = IMAGES.beforeAfter[index];
+
+  const goPrev = () => setPair(([i]) => [(i - 1 + total) % total, -1]);
+  const goNext = () => setPair(([i]) => [(i + 1) % total, 1]);
+  const goTo = (i: number) => setPair(([prev]) => (i === prev ? [prev, 0] : [i, i > prev ? 1 : -1]));
+
   return (
     <section id="antes-depois" className="py-24 md:py-32 bg-white">
       <div className="max-w-6xl mx-auto px-6 lg:px-12">
@@ -211,15 +253,112 @@ function BeforeAfter() {
           <SectionTitle className="mb-12">Antes <span className="font-medium">&</span> Depois</SectionTitle>
         </FadeInSection>
         <FadeInSection className="mt-4">
-          <p className="text-neutral-500 text-base md:text-lg max-w-xl mb-10 leading-relaxed font-light">Arraste a linha central para comparar o resultado da edição. Cada imagem é tratada com cuidado para revelar a verdadeira beleza do ambiente.</p>
+          <p className="text-neutral-500 text-base md:text-lg max-w-xl mb-10 leading-relaxed font-light">Arraste a linha central para comparar o resultado da edição. Use as setas para ver outros projetos.</p>
         </FadeInSection>
         <FadeInSection>
-          <div className="max-w-4xl mx-auto">
-            <ComparisonSlider beforeImage={IMAGES.beforeAfter} afterImage={IMAGES.hero} alt="Comparação de edição de fotografia de interiores" />
+          <div className="max-w-4xl mx-auto relative">
+            <AnimatePresence mode="wait" custom={direction} initial={false}>
+              <motion.div
+                key={index}
+                custom={direction}
+                initial={{ opacity: 0, x: direction * 32 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -direction * 32 }}
+                transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <ComparisonSlider beforeImage={current.before} afterImage={current.after} alt={`Comparação de edição de fotografia de interiores ${index + 1} de ${total}`} />
+              </motion.div>
+            </AnimatePresence>
+            <button
+              type="button"
+              onClick={goPrev}
+              aria-label="Foto anterior"
+              className="absolute left-2 sm:-left-16 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/90 backdrop-blur-sm shadow-md border border-neutral-200 flex items-center justify-center text-neutral-600 hover:text-neutral-900 hover:scale-105 transition-all duration-200 z-10"
+            >
+              <ChevronLeft size={20} />
+            </button>
+            <button
+              type="button"
+              onClick={goNext}
+              aria-label="Próxima foto"
+              className="absolute right-2 sm:-right-16 top-1/2 -translate-y-1/2 w-11 h-11 rounded-full bg-white/90 backdrop-blur-sm shadow-md border border-neutral-200 flex items-center justify-center text-neutral-600 hover:text-neutral-900 hover:scale-105 transition-all duration-200 z-10"
+            >
+              <ChevronRight size={20} />
+            </button>
+          </div>
+          <div className="flex justify-center gap-2 mt-6">
+            {IMAGES.beforeAfter.map((_, i) => (
+              <button
+                key={i}
+                type="button"
+                onClick={() => goTo(i)}
+                aria-label={`Ver foto ${i + 1}`}
+                className={`h-2 rounded-full transition-all duration-200 ${i === index ? "w-6 bg-neutral-900" : "w-2 bg-neutral-200 hover:bg-neutral-300"}`}
+              />
+            ))}
           </div>
         </FadeInSection>
       </div>
     </section>
+  );
+}
+
+function AboutVideo() {
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const [isMuted, setIsMuted] = useState(true);
+
+  const handleToggleSound = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.muted = !video.muted;
+    setIsMuted(video.muted);
+    if (!video.muted) video.play();
+  };
+
+  const handleFullscreen = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    const video = videoRef.current;
+    if (!video) return;
+    const videoWithFallback = video as HTMLVideoElement & { webkitEnterFullscreen?: () => void };
+    if (video.requestFullscreen) {
+      video.requestFullscreen().catch(() => {});
+    } else if (videoWithFallback.webkitEnterFullscreen) {
+      videoWithFallback.webkitEnterFullscreen();
+    }
+  };
+
+  return (
+    <div
+      className="relative aspect-[9/16] rounded-xl overflow-hidden bg-neutral-200 shadow-sm cursor-pointer group"
+      onClick={handleToggleSound}
+      role="button"
+      aria-label="Ativar ou desativar o som do vídeo"
+    >
+      <video
+        ref={videoRef}
+        src="/sobre/video.mp4"
+        className="w-full h-full object-cover"
+        autoPlay
+        loop
+        muted
+        playsInline
+        preload="auto"
+      />
+      {isMuted && (
+        <div className="absolute bottom-4 left-4 flex items-center gap-2 px-3 py-1.5 rounded-md bg-black/60 backdrop-blur-sm text-xs font-medium text-white transition-all duration-200 group-hover:bg-black/75">
+          <VolumeX size={14} />
+          Toque para ativar o som
+        </div>
+      )}
+      <button
+        type="button"
+        onClick={handleFullscreen}
+        aria-label="Assistir em tela cheia"
+        className="absolute bottom-4 right-4 p-2 rounded-md bg-black/60 backdrop-blur-sm text-white hover:bg-black/75 transition-all duration-200"
+      >
+        <Maximize2 size={14} />
+      </button>
+    </div>
   );
 }
 
@@ -238,9 +377,7 @@ function About() {
             </div>
           </FadeInSection>
           <FadeInSection className="md:col-span-2">
-            <div className="aspect-[3/4] rounded-xl overflow-hidden bg-neutral-200 shadow-sm">
-              <img src={IMAGES.portfolio[3]} alt="Interior elegante" className="w-full h-full object-cover" width={600} height={800} decoding="async" />
-            </div>
+            <AboutVideo />
           </FadeInSection>
         </div>
       </div>
@@ -275,7 +412,62 @@ function Services() {
   );
 }
 
+function PortfolioLightbox({ index, onClose }: { index: number | null; onClose: () => void }) {
+  useEffect(() => {
+    if (index === null) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+    document.addEventListener("keydown", handleKeyDown);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown);
+      document.body.style.overflow = "";
+    };
+  }, [index, onClose]);
+
+  return (
+    <AnimatePresence>
+      {index !== null && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.25 }}
+          className="fixed inset-0 z-[100] bg-black/90 flex items-center justify-center p-4 sm:p-10 cursor-zoom-out"
+          onClick={onClose}
+        >
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onClose();
+            }}
+            aria-label="Fechar"
+            className="absolute top-4 right-4 sm:top-6 sm:right-6 w-11 h-11 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition-colors z-10"
+          >
+            <X size={22} />
+          </button>
+          <motion.img
+            key={index}
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.96 }}
+            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+            src={IMAGES.portfolio[index]}
+            alt={`Projeto de arquitetura e interiores ${index + 1} em tela cheia`}
+            className="max-w-full max-h-full object-contain rounded-lg shadow-2xl cursor-default"
+            onClick={(e) => e.stopPropagation()}
+          />
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
+}
+
 function Portfolio() {
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+
   return (
     <section id="portfolio" className="py-24 md:py-32 bg-neutral-50">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
@@ -287,14 +479,25 @@ function Portfolio() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {IMAGES.portfolio.map((src, idx) => (
             <FadeInSection key={src} className="h-full">
-              <div className="group relative overflow-hidden rounded-xl bg-neutral-200 shadow-sm cursor-pointer">
+              <button
+                type="button"
+                onClick={() => setLightboxIndex(idx)}
+                aria-label={`Ver projeto ${idx + 1} em tela cheia`}
+                className="group relative overflow-hidden rounded-xl bg-neutral-200 shadow-sm cursor-pointer block w-full text-left"
+              >
                 <img src={src} alt={`Projeto de arquitetura e interiores ${idx + 1}`} className="w-full aspect-[4/3] object-cover transition-all duration-700 group-hover:scale-105" width={600} height={450} loading="lazy" decoding="async" />
-                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-all duration-500" />
-              </div>
+                <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-all duration-500" />
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                  <div className="w-11 h-11 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-neutral-800">
+                    <Maximize2 size={18} />
+                  </div>
+                </div>
+              </button>
             </FadeInSection>
           ))}
         </div>
       </div>
+      <PortfolioLightbox index={lightboxIndex} onClose={() => setLightboxIndex(null)} />
     </section>
   );
 }
@@ -338,10 +541,10 @@ function Cta() {
           <h2 className="text-3xl md:text-5xl font-light text-white leading-tight mb-6">Transforme suas imagens em <span className="font-medium">apresentações visuais</span> de alto padrão.</h2>
           <p className="text-neutral-400 text-base md:text-lg max-w-xl mx-auto mb-10 leading-relaxed font-light">Solicite um orçamento personalizado e descubra como posso ajudar a valorizar seu portfólio com edições que fazem a diferença.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="https://wa.me/5511999999999" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-10 py-4 rounded-full bg-white text-neutral-900 font-medium text-sm hover:bg-neutral-100 transition-all duration-300 shadow-xl">
+            <a href="https://wa.me/558681331194" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-10 py-4 rounded-full bg-white text-neutral-900 font-medium text-sm hover:bg-neutral-100 transition-all duration-300 shadow-xl">
               Fale com Vallentina <ArrowRight size={16} />
             </a>
-            <a href="mailto:contato@vallentinamonteiro.com" className="inline-flex items-center justify-center gap-2 px-10 py-4 rounded-full border border-neutral-600 text-neutral-300 text-sm hover:bg-neutral-800 hover:text-white transition-all duration-300">
+            <a href="mailto:vallentinarm@hotmail.com" className="inline-flex items-center justify-center gap-2 px-10 py-4 rounded-full border border-neutral-600 text-neutral-300 text-sm hover:bg-neutral-800 hover:text-white transition-all duration-300">
               Enviar e-mail
             </a>
           </div>
@@ -371,9 +574,9 @@ function Footer() {
           <div className="md:col-span-1">
             <p className="text-xs tracking-[0.2em] uppercase text-neutral-600 mb-5 font-medium">Contato</p>
             <div className="space-y-4">
-              <a href="https://wa.me/5511999999999" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm text-neutral-400 hover:text-white transition-colors duration-300"><span className="w-2 h-2 rounded-full bg-green-500/60" /> WhatsApp</a>
-              <a href="https://instagram.com/vallentinamonteiro" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm text-neutral-400 hover:text-white transition-colors duration-300"><span className="w-2 h-2 rounded-full bg-pink-500/60" /> Instagram</a>
-              <a href="mailto:contato@vallentinamonteiro.com" className="flex items-center gap-3 text-sm text-neutral-400 hover:text-white transition-colors duration-300"><span className="w-2 h-2 rounded-full bg-blue-500/60" /> contato@vallentinamonteiro.com</a>
+              <a href="https://wa.me/558681331194" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm text-neutral-400 hover:text-white transition-colors duration-300"><span className="w-2 h-2 rounded-full bg-green-500/60" /> WhatsApp</a>
+              <a href="https://www.instagram.com/vallentinarm/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm text-neutral-400 hover:text-white transition-colors duration-300"><span className="w-2 h-2 rounded-full bg-pink-500/60" /> Instagram</a>
+              <a href="mailto:vallentinarm@hotmail.com" className="flex items-center gap-3 text-sm text-neutral-400 hover:text-white transition-colors duration-300"><span className="w-2 h-2 rounded-full bg-blue-500/60" /> vallentinarm@hotmail.com</a>
             </div>
           </div>
         </div>

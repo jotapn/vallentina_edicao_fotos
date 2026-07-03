@@ -63,44 +63,39 @@ export function ComparisonSlider({
         if (e.key === "ArrowRight") setSliderPosition((p) => Math.min(100, p + 2));
       }}
     >
-      {/* After image (background) */}
+      {/* Before image (base layer, full size) */}
       <img
-        src={afterImage}
-        alt={`${alt} — depois`}
+        src={beforeImage}
+        alt={`${alt} — antes`}
         className="absolute inset-0 w-full h-full object-cover"
         width={1200}
         height={900}
         decoding="async"
       />
 
-      {/* Before image (clipped) */}
-      <div
-        className="absolute inset-0 overflow-hidden"
-        style={{ width: `${sliderPosition}%` }}
-      >
-        <img
-          src={beforeImage}
-          alt={`${alt} — antes`}
-          className="absolute top-0 left-0 w-full h-full object-cover"
-          style={{ width: `${100 / (sliderPosition / 100)}%` }}
-          width={1200}
-          height={900}
-          decoding="async"
-        />
-      </div>
+      {/* After image (same size/crop as before, revealed via clip-path) */}
+      <img
+        src={afterImage}
+        alt={`${alt} — depois`}
+        className="absolute inset-0 w-full h-full object-cover"
+        style={{ clipPath: `inset(0 0 0 ${sliderPosition}%)` }}
+        width={1200}
+        height={900}
+        decoding="async"
+      />
 
       {/* Labels */}
       <div
-        className="absolute top-4 left-4 px-3 py-1.5 rounded-md bg-white/80 backdrop-blur-sm text-xs font-medium text-neutral-800 transition-opacity duration-200"
+        className="absolute top-4 left-4 px-3 py-1.5 rounded-md bg-black/60 backdrop-blur-sm text-xs font-medium text-white transition-opacity duration-200"
         style={{ opacity: sliderPosition > 20 ? 1 : 0 }}
       >
-        Depois
+        Antes
       </div>
       <div
-        className="absolute top-4 right-4 px-3 py-1.5 rounded-md bg-black/60 backdrop-blur-sm text-xs font-medium text-white transition-opacity duration-200"
+        className="absolute top-4 right-4 px-3 py-1.5 rounded-md bg-white/80 backdrop-blur-sm text-xs font-medium text-neutral-800 transition-opacity duration-200"
         style={{ opacity: sliderPosition < 80 ? 1 : 0 }}
       >
-        Antes
+        Depois
       </div>
 
       {/* Slider handle */}

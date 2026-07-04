@@ -13,6 +13,9 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000"
+  ),
   title: "Vallentina Monteiro — Edição Profissional de Fotos de Arquitetura e Interiores",
   description:
     "Edição de fotos de arquitetura com olhar refinado e acabamento profissional. Tratamento de imagens para arquitetos, designers de interiores, fotógrafos e imobiliárias.",
@@ -21,6 +24,12 @@ export const metadata: Metadata = {
     description:
       "Transforme suas imagens em apresentações visuais de alto padrão.",
     type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Vallentina Monteiro — Edição de Fotos de Arquitetura",
+    description:
+      "Transforme suas imagens em apresentações visuais de alto padrão.",
   },
 };
 

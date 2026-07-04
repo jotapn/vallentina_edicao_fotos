@@ -13,9 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  metadataBase: new URL(
-    process.env.VERCEL_URL ? `https://${process.env.VERCEL_URL}` : "http://localhost:3000"
-  ),
+  metadataBase: new URL("https://www.vallentinamonteiro.com.br"),
   title: "Vallentina Monteiro — Edição Profissional de Fotos de Arquitetura e Interiores",
   description:
     "Edição de fotos de arquitetura com olhar refinado e acabamento profissional. Tratamento de imagens para arquitetos, designers de interiores, fotógrafos e imobiliárias.",

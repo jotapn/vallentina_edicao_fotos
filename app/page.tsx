@@ -36,6 +36,9 @@ const PROCESS_STEPS = [
   { number: "03", title: "Entrega final em alta qualidade", description: "Devolvo as imagens editadas em alta resolução, prontas para uso em portfólios, redes sociais, sites e materiais impressos." },
 ];
 
+const WHATSAPP_MESSAGE = "Olá, Vallentina! Vi seu site e gostaria de solicitar um orçamento para edição de fotos.";
+const WHATSAPP_URL = `https://wa.me/558681331194?text=${encodeURIComponent(WHATSAPP_MESSAGE)}`;
+
 function FadeInSection({ children, className = "" }: { children: React.ReactNode; className?: string }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "-80px" });
@@ -500,7 +503,7 @@ function Cta() {
           <h2 className="text-3xl md:text-5xl font-light text-white leading-tight mb-6">Transforme suas imagens em <span className="font-medium">apresentações visuais</span> de alto padrão.</h2>
           <p className="text-neutral-400 text-base md:text-lg max-w-xl mx-auto mb-10 leading-relaxed font-light">Solicite um orçamento personalizado e descubra como posso ajudar a valorizar seu portfólio com edições que fazem a diferença.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <a href="https://wa.me/558681331194" target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-10 py-4 rounded-full bg-white text-neutral-900 font-medium text-sm hover:bg-neutral-100 transition-all duration-300 shadow-xl">
+            <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="inline-flex items-center justify-center gap-2 px-10 py-4 rounded-full bg-white text-neutral-900 font-medium text-sm hover:bg-neutral-100 transition-all duration-300 shadow-xl">
               Fale com Vallentina <ArrowRight size={16} />
             </a>
             <a href="mailto:vallentinarm@hotmail.com" className="inline-flex items-center justify-center gap-2 px-10 py-4 rounded-full border border-neutral-600 text-neutral-300 text-sm hover:bg-neutral-800 hover:text-white transition-all duration-300">
@@ -533,7 +536,7 @@ function Footer() {
           <div className="md:col-span-1">
             <p className="text-xs tracking-[0.2em] uppercase text-neutral-600 mb-5 font-medium">Contato</p>
             <div className="space-y-4">
-              <a href="https://wa.me/558681331194" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm text-neutral-400 hover:text-white transition-colors duration-300"><span className="w-2 h-2 rounded-full bg-green-500/60" /> WhatsApp</a>
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm text-neutral-400 hover:text-white transition-colors duration-300"><span className="w-2 h-2 rounded-full bg-green-500/60" /> WhatsApp</a>
               <a href="https://www.instagram.com/vallentinarm/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-sm text-neutral-400 hover:text-white transition-colors duration-300"><span className="w-2 h-2 rounded-full bg-pink-500/60" /> Instagram</a>
               <a href="mailto:vallentinarm@hotmail.com" className="flex items-center gap-3 text-sm text-neutral-400 hover:text-white transition-colors duration-300"><span className="w-2 h-2 rounded-full bg-blue-500/60" /> vallentinarm@hotmail.com</a>
             </div>

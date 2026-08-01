@@ -6,7 +6,6 @@ import { Menu, X, ArrowRight, ChevronDown, ChevronLeft, ChevronRight, Camera, Im
 import { ComparisonSlider } from "@/components/comparison-slider";
 
 const IMAGES = {
-  hero: ["/hero/h1.jpg", "/hero/h2.jpg", "/hero/h3.jpg"],
   beforeAfter: [
     { before: "/before-after/antes.jpg", after: "/before-after/depois.jpg" },
     { before: "/before-after/antes1.jpg", after: "/before-after/depois1.jpg" },
@@ -83,13 +82,13 @@ function Header() {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
         scrolled
           ? "bg-white/95 backdrop-blur-xl border-b border-neutral-100 shadow-sm"
-          : "bg-black/40 backdrop-blur-sm"
+          : "bg-white"
       }`}
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         <div className="flex items-center justify-between h-20">
-          <a href="#" className={`text-lg font-medium tracking-tight transition-colors duration-300 ${scrolled ? "text-neutral-900" : "text-white"}`}>
-            Vallentina<span className={`font-light ${scrolled ? "text-neutral-300" : "text-white/50"}`}> Monteiro</span>
+          <a href="#" className="text-lg font-medium tracking-tight text-neutral-900 transition-colors duration-300">
+            Vallentina<span className="font-light text-neutral-300"> Monteiro</span>
           </a>
 
           <nav className="hidden md:flex items-center gap-10">
@@ -97,25 +96,21 @@ function Header() {
               <a
                 key={link.href}
                 href={link.href}
-                className={`text-sm transition-colors duration-300 tracking-wide ${scrolled ? "text-neutral-500 hover:text-neutral-900" : "text-white/80 hover:text-white"}`}
+                className="text-sm transition-colors duration-300 tracking-wide text-neutral-500 hover:text-neutral-900"
               >
                 {link.label}
               </a>
             ))}
             <a
               href="#orcamento"
-              className={`text-sm font-medium px-5 py-2.5 rounded-full transition-all duration-300 tracking-wide ${
-                scrolled
-                  ? "text-neutral-900 border border-neutral-300 hover:border-neutral-900"
-                  : "text-white border border-white/50 hover:bg-white hover:text-neutral-900"
-              }`}
+              className="text-sm font-medium px-5 py-2.5 rounded-full transition-all duration-300 tracking-wide text-neutral-900 border border-neutral-300 hover:border-neutral-900"
             >
               Solicitar orçamento
             </a>
           </nav>
 
           <button
-            className={`md:hidden p-2 transition-colors duration-300 ${scrolled ? "text-neutral-700" : "text-white"}`}
+            className="md:hidden p-2 text-neutral-700 transition-colors duration-300"
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Menu"
           >
@@ -159,68 +154,32 @@ function Header() {
   );
 }
 
-function HeroSlideshow() {
-  const [index, setIndex] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setIndex((i) => (i + 1) % IMAGES.hero.length);
-    }, 4000);
-    return () => clearInterval(timer);
-  }, []);
-
-  return (
-    <AnimatePresence mode="sync">
-      <motion.img
-        key={index}
-        src={IMAGES.hero[index]}
-        alt="Fotografia de arquitetura"
-        className="absolute inset-0 w-full h-full object-cover"
-        width={1920}
-        height={1080}
-        decoding="async"
-        initial={{ opacity: 0, scale: 1.08 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0 }}
-        transition={{ opacity: { duration: 1.2, ease: [0.16, 1, 0.3, 1] }, scale: { duration: 4.5, ease: "linear" } }}
-      />
-    </AnimatePresence>
-  );
-}
-
 function Hero() {
   const ref = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ["start start", "end start"] });
-  const y = useTransform(scrollYProgress, [0, 1], [0, 120]);
   const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   return (
-    <section ref={ref} className="relative min-h-screen flex items-center overflow-hidden bg-neutral-50">
-      <motion.div style={{ y }} className="absolute inset-0">
-        <HeroSlideshow />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/85 via-black/60 to-black/25" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/10" />
-      </motion.div>
-
+    <section ref={ref} className="relative min-h-screen flex items-center overflow-hidden bg-white">
       <motion.div style={{ opacity }} className="relative z-10 max-w-7xl mx-auto px-6 lg:px-12 pt-32 pb-24 md:pt-40 md:pb-32">
         <div className="max-w-2xl">
-          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }} className="text-xs tracking-[0.3em] uppercase text-white mb-6 font-medium [text-shadow:0_1px_12px_rgba(0,0,0,0.7)]">
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.1 }} className="text-xs tracking-[0.3em] uppercase text-neutral-500 mb-6 font-medium">
             Edição profissional de fotografia
           </motion.p>
 
-          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light tracking-tight text-white leading-[1.1] [text-shadow:0_2px_24px_rgba(0,0,0,0.6)]">
+          <motion.h1 initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }} className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light tracking-tight text-neutral-900 leading-[1.1]">
             Edição de fotos de arquitetura com <span className="font-medium">olhar refinado</span> e acabamento profissional
           </motion.h1>
 
-          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.4 }} className="mt-6 text-base md:text-lg text-white max-w-xl leading-relaxed font-light [text-shadow:0_1px_16px_rgba(0,0,0,0.6)]">
+          <motion.p initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.4 }} className="mt-6 text-base md:text-lg text-neutral-600 max-w-xl leading-relaxed font-light">
             Tratamento de imagens para arquitetos, designers de interiores, fotógrafos e imobiliárias que desejam apresentar seus projetos com mais elegância, luz e impacto visual.
           </motion.p>
 
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.5 }} className="mt-10 flex flex-col sm:flex-row gap-4">
-            <a href="#orcamento" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-white text-neutral-900 font-medium text-sm hover:bg-neutral-100 transition-all duration-300 shadow-lg shadow-black/10">
+            <a href="#orcamento" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full bg-neutral-900 text-white font-medium text-sm hover:bg-neutral-800 transition-all duration-300 shadow-lg shadow-black/10">
               Solicitar orçamento <ArrowRight size={16} />
             </a>
-            <a href="#antes-depois" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full border border-white/40 text-white text-sm hover:bg-white/15 transition-all duration-300">
+            <a href="#antes-depois" className="inline-flex items-center justify-center gap-2 px-8 py-3.5 rounded-full border border-neutral-300 text-neutral-900 text-sm hover:border-neutral-900 transition-all duration-300">
               Ver antes e depois
             </a>
           </motion.div>
@@ -229,7 +188,7 @@ function Hero() {
 
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 1.2, duration: 0.6 }} className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
         <motion.div animate={{ y: [0, 6, 0] }} transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}>
-          <ChevronDown size={20} className="text-white/50" />
+          <ChevronDown size={20} className="text-neutral-400" />
         </motion.div>
       </motion.div>
     </section>
